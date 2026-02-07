@@ -1,0 +1,10 @@
+Here is the **changelog** in a clean **Markdown table** format:
+
+| Version                  | Date/Stage                  | Key Changes & Improvements                                                                                          | Status                  |
+|--------------------------|-----------------------------|---------------------------------------------------------------------------------------------------------------------|-------------------------|
+| v2.0                     | Initial advanced version    | - Rich sensor structure (`triggerCount`, `negativeCountEvents`, per-sensor health)<br>- Configurable congestion model (`#define` LINEAR/QUADRATIC/CUBIC/SQRT)<br>- Detailed CSV logging (wait time, priority, health, etc.)<br>- Modern dashboard (gradient, cards, pulsing, per-lane priority & health)<br>- Fancy ASCII logging + startup banner<br>- Round-robin fallback when empty | Base feature-rich version |
+| v3.0 (First merge)       | Manual control added        | - Added manual override system<br>• Globals: `manualMode`, `manualAllRed`, `manualActiveLane`<br>• Endpoints: `/api/manual/lane`, `/allred`, `/auto`<br>• Dashboard: “MANUAL OVERRIDE” badge + control buttons<br>• Manual mode bypasses state machine<br>- `manualMode` field in `/api/status` JSON | Functional but incomplete |
+| v3.0 (Polished/Final)    | Latest improvements         | - Added missing `setupWebServer()` call in `setup()`<br>- `handleManualLane()` now checks `lanes[].enabled`<br>- Logging added in manual mode block (`loop()`)<br>- Sync `activeLane = manualActiveLane` for UI consistency<br>- Optional `"forcedLane"` field in `/api/status` when manual + not all-red<br>- Better error messages in manual handlers | Production-ready with fixes |
+| Future ideas (optional)  | Not yet implemented         | - Manual mode auto-timeout (e.g. resume after 10 min)<br>- Confirmation dialog before all-red<br>- Basic auth / password on manual endpoints<br>- WiFi reconnect logic<br>- Improved vehicle counting (entry-exit sequence validation) | Planned / suggested     |
+
+Let me know if you'd like the table expanded, condensed, or focused on specific aspects!

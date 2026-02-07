@@ -29,8 +29,8 @@
 #include <SPIFFS.h>
 
 // ==================== Wi-Fi CONFIGURATION ====================
-const char* WIFI_SSID = "Theotherguy";
-const char* WIFI_PASSWORD = "0812baron.";
+const char* WIFI_SSID = "";
+const char* WIFI_PASSWORD = "";
 
 // ==================== TLC5947 CONFIGURATION ====================
 #define TLC_NUM_BOARDS 1
@@ -119,7 +119,11 @@ const bool ENABLE_EMPTY_LANE_SKIP = true;
 // "QUADRATIC"  - Exponential pressure: score = (vehicles/max)²
 // "CUBIC"      - Extreme congestion emphasis: score = (vehicles/max)³
 // "SQRT"       - Gentle curve: score = sqrt(vehicles/max)
-#define CONGESTION_MODEL "QUADRATIC"  // 🔴 CHANGE THIS to test different models
+
+// #define CONGESTION_MODEL "SQRT" 1
+//#define CONGESTION_MODEL_LINEAR 1 
+#define CONGESTION_MODEL_QUADRATIC 1 
+// #define CONGESTION_MODEL_CUBIC 1 
 
 // For small-scale testing (5-8 toy cars), use lower max to increase pressure sensitivity
 // This makes each car have more impact on priority calculations
@@ -751,33 +755,19 @@ float calculateLanePriorityScore(Lane lane) {
   float normalizedCount = min(1.0f, l.vehicleCount / MAX_VEHICLES_PER_LANE);
   float congestionScore = 0.0;
   
-  #if defined(CONGESTION_MODEL)
-    #if CONGESTION_MODEL == "LINEAR"
-      // Linear: Direct proportion (original method)
+    #if defined(CONGESTION_MODEL_LINEAR)
       congestionScore = normalizedCount;
-      
-    #elif CONGESTION_MODEL == "QUADRATIC"
-      // Quadratic: Exponential pressure increase (RECOMMENDED)
-      // Examples: 10 vehicles = 0.33² = 0.11
-      //           20 vehicles = 0.67² = 0.45
-      //           30 vehicles = 1.00² = 1.00
+
+    #elif defined(CONGESTION_MODEL_QUADRATIC)
       congestionScore = normalizedCount * normalizedCount;
-      
-    #elif CONGESTION_MODEL == "CUBIC"
-      // Cubic: Extreme congestion emphasis
+    #elif defined(CONGESTION_MODEL_CUBIC)
       congestionScore = normalizedCount * normalizedCount * normalizedCount;
-      
-    #elif CONGESTION_MODEL == "SQRT"
-      // Square root: Gentler curve for low congestion sensitivity
+    #elif defined(CONGESTION_MODEL_SQRT)
       congestionScore = sqrt(normalizedCount);
-      
     #else
-      // Default to linear if unknown model
       congestionScore = normalizedCount;
     #endif
-  #else
-    congestionScore = normalizedCount;
-  #endif
+
   
   // Wait time component (keep linear - fairness requirement)
   float waitScore = 0.0;
