@@ -1,7 +1,4 @@
-Got it — if you're happy with the current version, that's great!  
-Here's an updated **README.md** that reflects the final state of the project (v3.0 with manual override, polished fixes, rich logging, dashboard, etc.).
 
-```markdown
 # Smart Traffic Control System v3.0
 
 ESP32-based smart traffic light controller for a 4-way intersection using Hall effect sensors and a TLC5947 LED driver.
@@ -102,7 +99,3 @@ MIT – feel free to modify and use!
 Happy building! 🚦
 ```
 
-Feel free to copy-paste this directly into your `README.md`.
-
-If you want to add screenshots, badges, license link, or expand any section, just let me know.  
-Anything else you'd like to tweak or add next? 😄
